@@ -15,6 +15,8 @@ class CreateAppTables extends Migration
     {
         Schema::create('primary_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('sort_no');
             $table->timestamps();
         });
 
@@ -22,6 +24,8 @@ class CreateAppTables extends Migration
         Schema::create('secondary_categories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('primary_category_id');
+            $table->string('name');
+            $table->integer('sort_no');
             $table->timestamps();
 
             $table->foreign('primary_category_id')->references('id')->on('primary_categories');
@@ -29,25 +33,31 @@ class CreateAppTables extends Migration
 
         Schema::create('item_conditions', function (Blueprint $table) {
             $table->id();
-
-            // ここにカラムを追加していく
-
+            $table->string('name');
+            $table->integer('sort_no');
             $table->timestamps();
         });
 
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('seller_id');
-            $table->unsignedBigInteger('buyer_id');
+            $table->unsignedBigInteger('buyer_id')->nullable();
             $table->unsignedBigInteger('secondary_category_id');
             $table->unsignedBigInteger('item_condition_id');
 
+            $table->string('name');
+            $table->string('image_file_name');
+            $table->text('description');
+            $table->unsignedInteger('price');
+            $table->string('state');
             $table->timestamps();
 
             $table->foreign('seller_id')->references('id')->on('users');
             $table->foreign('buyer_id')->references('id')->on('users');
             $table->foreign('secondary_category_id')->references('id')->on('secondary_categories');
             $table->foreign('item_condition_id')->references('id')->on('item_conditions');
+
+
         });
 
     }
