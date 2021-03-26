@@ -21,6 +21,9 @@ Route::get('items/{item}', 'ItemsController@showItemDetail')->name('item');
 
 Route::middleware('auth')
 ->group(function () {
+    // 商品詳細 / 購入
+    Route::get('items/{item}/buy', 'ItemsController@showBuyItemForm')->name('item.buy');
+
     // 商品出品
     Route::get('sell', 'SellController@showSellForm')->name('sell');
     Route::post('sell', 'SellController@sellItem')->name('sell');
